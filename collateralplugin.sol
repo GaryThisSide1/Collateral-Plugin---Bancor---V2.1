@@ -43,24 +43,28 @@ contract BancorCollateralPlugin is BancorConverterRegistryPlugin {
     // Function to create a new reserve on the Bancor network
     // This function requires the reserve contributor to provide collateral for their reserve
     function createReserve(
-        address _reserve,
-        uint256 _reserveCollateral
-    ) external {
-        // Check that the reserve contributor has provided the required amount of collateral
-        require(_reserveCollateral >= collateralRequirement, "Insufficient collateral provided");
+    address _reserve,
+    uint256 _reserveCollateral,
+    address _referenceUnit,
+    address _targetUnit
+) external {
+    // Check that the reserve contributor has provided the required amount of collateral
+    require(_reserveCollateral >= collateralRequirement, "Insufficient collateral provided");
 
-        // Create an escrow account for the reserve contributor's collateral
-        escrowAccounts[_reserve] = new Escrow();
+    // Create an escrow account for the reserve contributor's collateral
+    escrowAccounts[_reserve] = new Escrow();
 
-        // Deposit the reserve contributor's collateral into the escrow account
-        escrowAccounts[_reserve].deposit(_reserveCollateral);
+    // Deposit the reserve contributor's collateral into the escrow account
+    escrowAccounts[_reserve].deposit(_reserveCollateral);
 
-        // Record the amount of collateral deposited by the reserve contributor
-        reserveCollateral[_reserve] = _reserveCollateral;
+    // Record the amount of collateral deposited by the reserve contributor
+    reserveCollateral[_reserve] = _reserveCollateral;
 
-        // Register the reserve with the BancorConverterRegistry contract
-        registry.register(_reserve);
-    }
+    // Register the reserve with the BancorConverterRegistry contract,
+    // using the provided reference and target units
+    registry.register(_reserve, _referenceUnit, _targetUnit);
+}
+
 
     // Function to modify an existing reserve on the Bancor network
     // This function allows the reserve contributor to deposit additional collateral or withdraw excess collateral
