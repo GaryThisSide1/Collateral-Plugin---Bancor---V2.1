@@ -69,3 +69,27 @@ contract BancorCollateralPlugin is BancorConverterRegistryPlugin {
         uint256 _reserveCollateral
     ) external {
         // Check that the reserve contributor has provided the required amount of collateral
+    // Function to retrieve the current status of a reserve
+function status(address _reserve) public view returns (string) {
+    // Retrieve the reserve's current collateral balance
+    uint256 reserveBalance = escrowAccounts[_reserve].balanceOf(collateralToken);
+
+    // Check if the reserve's collateral balance is below the liquidation threshold
+    if (reserveBalance < collateralLiquidationThreshold) {
+        // Return "under-collateralized" if the reserve's collateral balance is below the liquidation threshold
+        return "under-collateralized";
+    } else {
+        // Return "normal" if the reserve's collateral balance is above the liquidation threshold
+        return "normal";
+    }
+}
+
+// Function to retrieve the current price of a reserve's collateral
+function price(address _reserve) public view returns (uint256) {
+    // Retrieve the reserve's current collateral balance
+    uint256 reserveBalance = escrowAccounts[_reserve].balanceOf(collateralToken);
+
+    // Calculate and return the reserve's current collateral price
+    return reserveCollateral[_reserve].div(reserveBalance);
+}
+
