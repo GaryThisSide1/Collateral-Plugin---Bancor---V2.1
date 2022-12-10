@@ -5,7 +5,7 @@ pragma solidity ^0.6.0;
 
 // Import necessary libraries
 import "https://github.com/bancorprotocol/contracts/BancorConverter.sol";
-import "https://github.com/bancorprotocol/contracts-solidity/blob/master/contracts/converter/ConverterRegistry.sol";
+import "https://github.com/bancorprotocol/contracts-solidity/master/contracts/converter/ConverterRegistry.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/SafeMath.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/Escrow.sol";
 
