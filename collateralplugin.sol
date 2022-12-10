@@ -50,7 +50,7 @@ contract BancorCollateralPlugin is BancorConverterRegistryPlugin {
 ) external {
     // Check that the reserve contributor has provided the required amount of collateral
     require(_reserveCollateral >= collateralRequirement, "Insufficient collateral provided");
-
+    require(_referenceUnit != address(0) && _targetUnit != address(0), "Reference and target units cannot be null");
     // Create an escrow account for the reserve contributor's collateral
     escrowAccounts[_reserve] = new Escrow();
 
